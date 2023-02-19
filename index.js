@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const { MongoClient, ServerApiVersion } = require('mongodb');
 const port = 5000;
 
 app.use(cors());
@@ -12,6 +13,19 @@ const users = [
   { id: 3, name: "rahim", email: "rahim@gmail.com" },
   { id: 4, name: "jamal", email: "jamal@gmail.com" },
 ];
+
+
+
+const uri = "mongodb+srv://admin:admin@cluster0.9cvoutl.mongodb.net/?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+client.connect(err => {
+  const collection = client.db("api").collection("users");
+  // perform actions on the collection object
+  console.log('database connected');
+  client.close();
+});
+
+
 
 app.get("/", (req, res) => {
   res.send("hello world");
